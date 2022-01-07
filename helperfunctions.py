@@ -10,15 +10,20 @@ VarClass = namedtuple("VarClass", ["module", "type", "no", "day", "start", "end"
 FixedClass = namedtuple("FixedClass", ["module", "type", "no", "day", "start", "end"]) #indicates the class slots must be fixed for indentification
 
 
-debugging = False
+debugging = True
 
+# Sigmoid functions
 def sigmoid(x):
   return 1 / (1 + math.exp(-x))
 
+
+# Debug print
 def dprint(item):
     if debugging:
         print(item)
 
+
+# 
 def range_overlapping(x, y): 
         if x.start == x.stop or y.start == y.stop: 
             return False 
@@ -26,7 +31,9 @@ def range_overlapping(x, y):
             return True 
         return x.start < y.stop and y.start < x.stop
 
-def table_compressor(timetable):  #takes in a list of lists and/or namedtuple and compress it to just a list of namedtuple
+
+# Takes in a list of lists and/or namedtuple and compress it to just a list of namedtuple
+def table_compressor(timetable):  
     singlelist_timetable = []
     for each in timetable:
         if (type(each) == list):
@@ -37,4 +44,18 @@ def table_compressor(timetable):  #takes in a list of lists and/or namedtuple an
     sorted_timetable = sorted(singlelist_timetable, key = lambda row: (row[3], int(row[4])))
     return sorted_timetable
 
-    
+# Generates an NUS Mods timetable link from a given timetable
+def generate_link(timetable):
+    parsed_timetable = parse_timetable(table_compressor(timetable))
+    link = "https://nusmods.com/timetable/sem-" + str(semester) + "/share?"
+    for mod in parsed_timetable:
+        counter = 1
+        link += (mod + "=")
+        length_session = len(parsed_timetable[mod])
+        for class_type in parsed_timetable[mod]:
+            link += class_type + ":" + (parsed_timetable[mod][class_type])
+            if counter != length_session:
+                link += ","
+            counter += 1
+        link += "&"
+    return link[0:len(link) - 1]
