@@ -15,7 +15,7 @@ academic_year = "2021-2022"
 
 semester = 1
 
-module_codes = ["ACC1701X", "MA2001", "MA1521", "CS1101S", "ES2660"]
+module_codes = ["MA1521", "ES2660"]
 
 container = get_all_module_info(module_codes, academic_year, semester)
 
@@ -72,6 +72,10 @@ def run_evolution(population_size, generation_limit, fitness_limit, fitness_func
         population = next_generation
 
         print(f"\nGeneration: {j}\n")
+        print()
+        for i in population[0]:
+            print(i)
+        print()
         score = fitness_func(population[0])
         print(sorted(scores, reverse=True))
         
@@ -80,7 +84,7 @@ def run_evolution(population_size, generation_limit, fitness_limit, fitness_func
         print(f"Tolerance: {tolerance}")
         print(f"Fitness score: {score}\n")
         
-    final_population = sorted(
+    population = sorted(
             population,
             key=lambda timetable: (fitness_func(timetable), soft_constraints_func(timetable)),
             reverse=True
@@ -88,28 +92,28 @@ def run_evolution(population_size, generation_limit, fitness_limit, fitness_func
 
     total1= 0
     scores3 = []
-    for member1 in final_population:
+    for member1 in population:
         total1 += soft_constraints_func(member1)
         scores3.append(soft_constraints_func(member1))
-    tolerance2 = abs(total1/10 - soft_constraints_func(final_population[0]))
+    tolerance2 = abs(total1/10 - soft_constraints_func(population[0]))
 
-    score_2 = fitness_func(final_population[0])
+    score_2 = fitness_func(population[0])
     soft_score_2 = scores3[0]
 
     print(sorted(scores3, reverse=True))
     print(f"Soft score at last generation: {soft_score_2}")
     print(f"Tolerance at last generation: {tolerance2}")
     print(f"Fitness score at last generation: {score_2}\n")
-    
-    return final_population, j
+
+    return population, j
 
 start = time.time()
-population, generations = run_evolution(
+final_set, generations = run_evolution(
     population_size=10,
     generation_limit=300,
     fitness_limit=1,
     fitness_func=partial(
-        fitness_function, "1000", "1800", ["Monday"]
+        fitness_function, "1000", "1800", ["Monday", "Tuesday"]
         ),
     mutate_func=partial(
         mutate, container
@@ -120,12 +124,17 @@ population, generations = run_evolution(
 )
 end = time.time()
 
-best_timetable = population[0]
+best_timetable = final_set[0]
+print(best_timetable)
 
 print(f"Number of generations: {generations}")
 print(f"Time: {end - start}s")
 print(f"Best solution: {generate_link(best_timetable, semester, module_codes)}")
 
 print("\nOutput timetable:\n")
+print()
+for j in best_timetable:
+    print(j)
+print()
 for i in table_compressor(best_timetable):
     print(i)
