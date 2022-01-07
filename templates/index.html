@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="static/normalize.css" rel="stylesheet">
+    <link href="static/styles.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/noUiSlider/8.5.1/nouislider.min.css" rel="stylesheet">
+    <script src="//cdn.bootcss.com/noUiSlider/8.5.1/nouislider.js"></script>
+    <title>where got time</title>
+</head>
+<body>
+    <div class="hero">
+        <div class="main-text">
+            where got time(table)?
+        </div>
+        <div class="sub-text">
+            being a student in nus is hard enough, why plan your own timetable? let us do it for you!
+        </div>
+    </div>
+    <div class="main">
+        <form autocomplete="off" method="POST">
+            <label for="modules"><strong>Modules</strong></label>
+            <input id="modules" name="modules" type="select" class="text-input">
+            
+            <label for="semester"><strong>Semester</strong></label>
+            <select id="semester" name="semester" type="select" class="text-input">
+                <option value="1">1</option>
+                <option value="2">2</option>
+            </select>
+
+            <div id="timestart-text"></div>
+            <div id="timeend-text"></div>
+            <br>
+            <div id="slider"></div>
+            <br>
+
+            <input id="timestart" name="timestart" type="hidden">
+            <input id="timeend" name="timeend" type="hidden">
+
+            <label for="freedays"><strong>Free days</strong></label>
+            <div id="freedays" class="freedays">
+                <div class="checkbox">
+                    <label for="Monday">Mon</label>
+                    <input id="Monday" name="Monday" type="checkbox">
+                </div>
+
+                <div class="checkbox">
+                    <label for="Tuesday">Tue</label>
+                    <input id="Tuesday" name="Tuesday" type="checkbox">
+                </div>
+
+                <div class="checkbox">
+                    <label for="Wednesday">Wed</label>
+                    <input id="Wednesday" name="Wednesday" type="checkbox">
+                </div>
+
+                <div class="checkbox">
+                    <label for="Thursday">Thu</label>
+                    <input id="Thursday" name="Thursday" type="checkbox">
+                </div>
+
+                <div class="checkbox">
+                    <label for="Friday">Fri</label>
+                    <input id="Friday" name="Friday" type="checkbox">
+                </div>
+            </div>
+
+            <div class="checkbox-lunch">
+                <label for="lunch"><strong>Lunch break </strong></label>
+                <input id="lunch" name="lunch" type="checkbox">
+            </div>
+
+            <label for="betweenlessons"><strong>Break between lessons</strong></label>
+            <input id="betweenlessons" name="betweenlessons" type="number" class="text-input">
+
+            <input type="submit" value="Generate!" class="submit">
+        </form>
+    </div>
+</body>
+<script>
+    var slider = document.getElementById('slider');
+
+    noUiSlider.create(slider, {
+        start: [1000, 1700],
+        step: 100,
+        connect: true,
+        range: {
+            'min': 0800,
+            'max': 2000
+        }
+    });
+
+    var slider = document.getElementById("slider");
+    var timestart = document.getElementById("timestart");
+    var timeend = document.getElementById("timeend");
+    var timestart_text = document.getElementById("timestart-text");
+    var timeend_text = document.getElementById("timeend-text");
+
+    function twentyfourhour(time) {
+        if (time < 1000) {
+            return "0" + String(Math.round(time));
+        } else {
+            return String(Math.round(time));
+        }
+    }
+
+    slider.noUiSlider.on('update', function(values, handle) {
+        timestart.value = values[0];
+        timeend.value = values[1];
+
+        timestart_text.innerHTML = "<strong>Start time: </strong>" + (twentyfourhour(values[0]));
+        timeend_text.innerHTML = "<strong>End time: </strong>" + (twentyfourhour(values[1]));
+    });
+</script>
+</html>

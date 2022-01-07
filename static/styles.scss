@@ -1,0 +1,135 @@
+@font-face {
+    font-family: 'Lato-Regular';
+    src: url('./Lato-Regular.ttf');
+}
+
+.hero {
+    background-image: url('hero.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 37vh; 
+
+    box-shadow: inset 0 0 0 1000px rgba(0,0,0,.4);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Vertical center alignment */
+    justify-content: center; /* Horizontal center alignment */
+    .main-text {
+        color: white;
+        font-weight: bold;
+        font-size: 72px;
+        text-align: center;
+    }
+    
+    .sub-text {
+        color: #cecece;
+        font-size: 18px;
+        text-align: center;
+    }
+}
+
+.hero-small {
+    @extend .hero;
+    height: 7vh;
+}
+
+* {
+    font-family: 'Lato-Regular';
+}
+
+.main {
+    margin: 20px;
+}
+
+form {
+    display: grid;
+    grid-row-gap: 10px;
+    justify-content: center;
+    margin: 0 26px;
+
+    .text-input {
+        height: 30px;
+        padding: 0 10px;
+        background-color: rgb(238, 238, 238);
+        border: 0px;
+        width: 35%;
+        min-width: 300px;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;    
+    }
+
+    input {
+        margin-top: 3px;
+        margin-bottom: 20px;
+    }
+}
+
+.checkbox-lunch {
+    input {
+        position: relative;
+        width: 20px;
+        height: 20px;
+        top: 5px;
+        left: 3px;
+    }
+}
+
+.checkbox {
+    input {
+        position: relative;
+        width: 20px;
+        height: 20px;
+        top: 5px;
+        left: -1px;
+    }
+}
+
+.submit {
+    padding: 10px 20px;
+    background-color: rgb(179, 200, 243);
+    border: 0px;
+    border-radius: 3px;
+    margin: 5px 30px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    cursor: pointer;
+}
+
+.submit:hover {
+    background-color: rgb(154, 182, 240);
+}
+
+.submit:active {
+    background-color: rgb(139, 165, 218);
+}
+
+a {
+    color: white;
+    text-decoration: none;
+}
+
+.timetable {
+    display: flex;
+    justify-content: center;
+    background-image: url('MyTimetable.png');
+    margin: 30px 0;
+
+    img {
+        width: 50%;
+    }
+}
+
+.button-table {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 30px;
+    
+    .submit {
+        width: 200px;
+    }
+}
+
+.freedays {
+    display: flex;
+    justify-content: space-between;
+}

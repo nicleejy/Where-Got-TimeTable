@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="static/normalize.css" rel="stylesheet">
+    <link href="static/styles.css" rel="stylesheet">
+    <title>where got time</title>
+</head>
+<body>
+    <div class="hero-small">
+        <div class="sub-text">
+            <a href="{{ url_for('index') }}">where got time(table)?</a>
+        </div>
+    </div>
+    <div class="timetable">
+        <img src="static/My Timetable.png">
+    </div>
+    <div class="button-table">
+        <a href={{ link }}>
+            <input type="submit" value="Import to NUSMods" class="submit">
+        </a>
+        <a href="https://nusmods.com/timetable/sem-2">
+            <input type="submit" value="Download image" class="submit">
+        </a>
+    </div>
+</body> 
+</html>
