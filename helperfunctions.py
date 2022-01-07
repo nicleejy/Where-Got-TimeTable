@@ -1,6 +1,7 @@
 import math
 from collections import namedtuple
 
+
 # Dictionaries to convert between days
 days = {"Monday": 0, "Tuesday": 1, "Wednesday": 2, "Thursday": 3, "Friday": 4, "Saturday": 5, "Sunday": 6}
 actual_days = {0: "Monday", 1: "Tuesday", 2: "Wednesday", 3: "Thursday", 4: "Friday", 5: "Saturday", 6: "Sunday"}
@@ -59,3 +60,10 @@ def generate_link(timetable):
             counter += 1
         link += "&"
     return link[0:len(link) - 1]
+
+
+def merge_scores(timetable, fitness_func, soft_constraints_func):
+    soft_score = soft_constraints_func(timetable) / 100
+    hard_score = fitness_func(timetable)
+    avg_score = (soft_score + hard_score) / 2
+    return avg_score
