@@ -1,8 +1,12 @@
-from random import random, choice
-from helperfunctions import *
-
+import random 
+from random import choice
+from collections import namedtuple
 # Mutate a given timetable by choosing timeslots at random for VarClass objects, FixedClass objects are not mutated
 # Mutation Frequency: Number of sessions to mutate
+# Named tuple objects representing a class timeslot
+VarClass = namedtuple("VarClass", ["module", "type", "no", "day", "start", "end"]) #indicates the class slots can be varied for identification
+FixedClass = namedtuple("FixedClass", ["module", "type", "no", "day", "start", "end"]) #indicates the class slots must be fixed for indentification
+
 
 def mutate(container, timetable):
     mutatable = 0
@@ -61,7 +65,7 @@ def mutate(container, timetable):
 
 def filter_classes(timetable):
     fixed_classes = [i for i in timetable if type(i).__name__ == "FixedClass"]
-    sorted_timetable = sorted([j for j in timetable if type(i).__name__ == "VarClass"], key=lambda row: (row[0], row[1]))
+    sorted_timetable = sorted([j for j in timetable if type(j).__name__ == "VarClass"], key=lambda row: (row[0], row[1]))
     linked_sessions = [k for k in timetable if type(k) == list]
     sorted_linked_sessions = sorted(linked_sessions, key=lambda x: (x[0][0], x[0][1]))
     for pair in sorted_linked_sessions:
@@ -78,15 +82,15 @@ def single_point_crossover(timetable_1, timetable_2):
     child_1 = []
     child_2 = []
     for i in range(len(var_parent_1)):
-        choice = choice([0, 1])
+        choice = random.randint(0, 1)
         if choice == 0:
-            print("Child 1 acquiring Parent 1's traits...")
-            print("Child 2 acquiring Parent 2's traits...")
+            # print("Child 1 acquiring Parent 1's traits...")
+            # print("Child 2 acquiring Parent 2's traits...")
             child_1.append(var_parent_1[i])
             child_2.append(var_parent_2[i])
         else:
-            print("Child 1 acquiring Parent 2's traits...")
-            print("Child 2 acquiring Parent 1's traits...")
+            # print("Child 1 acquiring Parent 2's traits...")
+            # print("Child 2 acquiring Parent 1's traits...")
             child_1.append(var_parent_2[i])
             child_2.append(var_parent_1[i])
     child_1.extend(fixed_1)

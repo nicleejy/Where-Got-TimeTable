@@ -1,7 +1,5 @@
 import math
 from collections import namedtuple
-from main import *
-
 
 # Dictionaries to convert between days
 days = {"Monday": 0, "Tuesday": 1, "Wednesday": 2, "Thursday": 3, "Friday": 4, "Saturday": 5, "Sunday": 6}
@@ -10,7 +8,6 @@ actual_days = {0: "Monday", 1: "Tuesday", 2: "Wednesday", 3: "Thursday", 4: "Fri
 # Named tuple objects representing a class timeslot
 VarClass = namedtuple("VarClass", ["module", "type", "no", "day", "start", "end"]) #indicates the class slots can be varied for identification
 FixedClass = namedtuple("FixedClass", ["module", "type", "no", "day", "start", "end"]) #indicates the class slots must be fixed for indentification
-
 
 debugging = False  
 
@@ -48,7 +45,7 @@ def table_compressor(timetable):
 
 
 # Takes a timetable array and reduces it to a nested dictionary for better parsing
-def parse_timetable(timetable_final):
+def parse_timetable(timetable_final, module_codes):
     all_classes = {}
     for mod in module_codes:
         mod_classes = {}
@@ -69,8 +66,8 @@ def parse_timetable(timetable_final):
 
 
 # Generates an NUS Mods timetable link from a given timetable
-def generate_link(timetable):
-    parsed_timetable = parse_timetable(table_compressor(timetable))
+def generate_link(timetable, semester, module_codes):
+    parsed_timetable = parse_timetable(table_compressor(timetable), module_codes)
     link = "https://nusmods.com/timetable/sem-" + str(semester) + "/share?"
     for mod in parsed_timetable:
         counter = 1
@@ -89,4 +86,5 @@ def merge_scores(timetable, fitness_func, soft_constraints_func):
     soft_score = soft_constraints_func(timetable) / 100
     hard_score = fitness_func(timetable)
     avg_score = (soft_score + hard_score) / 2
+    print(f"Merge score is working, avg score is{avg_score}")
     return avg_score

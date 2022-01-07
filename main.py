@@ -4,7 +4,7 @@ from functools import partial
 import time
 
 from moduleparser import get_all_module_info
-from helperfunctions import dprint, sigmoid, table_compressor, generate_link, merge_scores
+from helperfunctions import merge_scores
 from genetics import single_point_crossover, mutate
 from timetable_generator import generate_timetable
 from fitness import *
@@ -15,9 +15,9 @@ academic_year = "2021-2022"
 
 semester = 1
 
-module_codes = ["CS2100", "ES2660", "IS1103", "MA1521", "CS1231", "MA1521"]
+module_codes = ["ACC1701X", "MA2001", "MA1521", "CS1101S", "ES2660"]
 
-container = None
+container = get_all_module_info(module_codes, academic_year, semester)
 
 # Takes in a 2D list containing lists of timetables 
 # as well as the fitness and soft constraints function 
@@ -37,14 +37,14 @@ def populate(population_size):
     return population
 
 
-def run_evolution(population_size, generation_limit, fitness_limit, fitness_func, mutate_func, soft_constraints):
+def run_evolution(population_size, generation_limit, fitness_limit, fitness_func, mutate_func, soft_constraints_func):
 
     population = populate(population_size)
 
     for j in range(generation_limit + 1):
         population = sorted(
             population,
-            key=lambda timetable: (fitness_func(timetable), soft_constraints(timetable)),
+            key=lambda timetable: (fitness_func(timetable), soft_constraints_func(timetable)),
             reverse=True
         )
 
@@ -52,10 +52,10 @@ def run_evolution(population_size, generation_limit, fitness_limit, fitness_func
         scores = []
 
         for member in population:
-            total += soft_constraints(member)
-            scores.append(soft_constraints(member))
+            total += soft_constraints_func(member)
+            scores.append(soft_constraints_func(member))
 
-        tolerance = abs(total/10 - soft_constraints(population[0]))
+        tolerance = abs(total/10 - soft_constraints_func(population[0]))
 
         if fitness_func(population[0]) == fitness_limit and 0 <= tolerance <= 1:
             break
@@ -63,7 +63,7 @@ def run_evolution(population_size, generation_limit, fitness_limit, fitness_func
         next_generation = population[0:2]
 
         for k in range(int(len(population) / 2) - 1):
-            parents = select_pairs(population, fitness_func)
+            parents = select_pairs(population, fitness_func, soft_constraints_func)
             child_a, child_b = single_point_crossover(parents[0], parents[1])
             child_a = mutate_func(child_a)
             child_b = mutate_func(child_b)
@@ -75,23 +75,23 @@ def run_evolution(population_size, generation_limit, fitness_limit, fitness_func
         score = fitness_func(population[0])
         print(sorted(scores, reverse=True))
         
-        soft_score = soft_constraints(population[0])
+        soft_score = soft_constraints_func(population[0])
         print(f"Soft score: {soft_score}")
         print(f"Tolerance: {tolerance}")
         print(f"Fitness score: {score}\n")
         
     final_population = sorted(
             population,
-            key=lambda timetable: (fitness_func(timetable), soft_constraints(timetable)),
+            key=lambda timetable: (fitness_func(timetable), soft_constraints_func(timetable)),
             reverse=True
         )
 
     total1= 0
     scores3 = []
     for member1 in final_population:
-        total1 += soft_constraints(member1)
-        scores3.append(soft_constraints(member1))
-    tolerance2 = abs(total1/10 - soft_constraints(final_population[0]))
+        total1 += soft_constraints_func(member1)
+        scores3.append(soft_constraints_func(member1))
+    tolerance2 = abs(total1/10 - soft_constraints_func(final_population[0]))
 
     score_2 = fitness_func(final_population[0])
     soft_score_2 = scores3[0]
@@ -112,11 +112,20 @@ population, generations = run_evolution(
         fitness_function, "1000", "1800", ["Monday"]
         ),
     mutate_func=partial(
-        mutate, 1, container
+        mutate, container
         ),
-    soft_constraints= partial(
+    soft_constraints_func= partial(
         soft_constraints, 1, True
     )
 )
-
 end = time.time()
+
+best_timetable = population[0]
+
+print(f"Number of generations: {generations}")
+print(f"Time: {end - start}s")
+print(f"Best solution: {generate_link(best_timetable, semester, module_codes)}")
+
+print("\nOutput timetable:\n")
+for i in table_compressor(best_timetable):
+    print(i)

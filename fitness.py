@@ -1,19 +1,12 @@
+from collections import namedtuple
 from helperfunctions import *
 
-x = [
-FixedClass(module='CS2030S', type='Lecture', no='1', day=0, start='1200', end='1400'), 
-VarClass(module='MA1521', type='Tutorial', no='1', day=0, start='1500', end='1600'), 
-VarClass(module='CS2100', type='Laboratory', no='35', day=1, start='1200', end='1300'), 
-VarClass(module='CS2100', type='Tutorial', no='12', day=1, start='1400', end='1500'), 
-FixedClass(module='CS2100', type='Lecture', no='1', day=1, start='1600', end='1800'), 
-FixedClass(module='CS2100', type='Lecture', no='1', day=2, start='0900', end='1000'), 
-FixedClass(module='CS1231', type='Sectional Teaching', no='1', day=2, start='1200', end='1400'), 
-VarClass(module='CS1231', type='Tutorial', no='04', day=2, start='1600', end='1800'), 
-FixedClass(module='MA1521', type='Lecture', no='1', day=2, start='1800', end='2000'), 
-FixedClass(module='CS1231', type='Sectional Teaching', no='1', day=4, start='1200', end='1300'), 
-VarClass(module='CS2030S', type='Laboratory', no='14A', day=4, start='1400', end='1600'), 
-FixedClass(module='MA1521', type='Lecture', no='1', day=4, start='1800', end='2000')
-]
+# Named tuple objects representing a class timeslot
+VarClass = namedtuple("VarClass", ["module", "type", "no", "day", "start", "end"]) #indicates the class slots can be varied for identification
+FixedClass = namedtuple("FixedClass", ["module", "type", "no", "day", "start", "end"]) #indicates the class slots must be fixed for indentification
+
+debugging = False
+
 
 # Check for bounds being exceeded in the overall timetable, returns the reciprocal of the number of bounds exceptions
 def check_bounds(timetable, start, end):
@@ -177,7 +170,7 @@ def soft_constraints(desired_freetime, lunch, sorted_timetable):
         totalfreetime = totalhours - (class_duration / 100)  #total free time available in the same day
         idealfreetime = (desired_freetime * no_of_intervals)  #ideal free time available in the same day
 
-        if  idealfreetime > totalfreetime:  #if what you want is more than total free time available
+        if idealfreetime > totalfreetime:  #if what you want is more than total free time available
             realistic_freetime = math.floor(totalfreetime/ no_of_intervals)  #we readjust and give you a realistic free time
             dprint(f"Sorry but your realistic rest time on {actual_days[same_day[1][3]]} is only {realistic_freetime} hours :(")
         else:
