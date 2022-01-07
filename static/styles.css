@@ -67,7 +67,6 @@ form .text-input {
   padding: 0 10px;
   background-color: #eeeeee;
   border: 0px;
-  width: 35%;
   min-width: 300px;
   -webkit-box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
           box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
@@ -116,6 +115,15 @@ form input {
 a {
   color: white;
   text-decoration: none;
+}
+
+.time-text-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
 
 .timetable {

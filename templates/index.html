@@ -22,17 +22,18 @@
     <div class="main">
         <form autocomplete="off" method="POST">
             <label for="modules"><strong>Modules</strong></label>
-            <input id="modules" name="modules" type="select" class="text-input">
+            <input id="modules" name="modules" type="select" class="text-input" required>
             
             <label for="semester"><strong>Semester</strong></label>
             <select id="semester" name="semester" type="select" class="text-input">
                 <option value="1">1</option>
                 <option value="2">2</option>
             </select>
-
-            <div id="timestart-text"></div>
-            <div id="timeend-text"></div>
             <br>
+            <div class=time-text-container>
+                <div id="timestart-text"></div>
+                <div id="timeend-text"></div>
+            </div>
             <div id="slider"></div>
             <br>
 
@@ -73,7 +74,7 @@
             </div>
 
             <label for="betweenlessons"><strong>Break between lessons</strong></label>
-            <input id="betweenlessons" name="betweenlessons" type="number" class="text-input">
+            <input id="betweenlessons" name="betweenlessons" type="number" class="text-input" required>
 
             <input type="submit" value="Generate!" class="submit">
         </form>
