@@ -1,9 +1,7 @@
 from collections import namedtuple
 from random import choice
-
-
-VarClass = namedtuple("VarClass", ["module", "type", "no", "day", "start", "end"]) 
-FixedClass = namedtuple("FixedClass", ["module", "type", "no", "day", "start", "end"])
+from moduleparser import get_all_module_info, get_module_info
+from helperfunctions import *
 
 
 #input: container
@@ -33,20 +31,22 @@ def generate_timetable(container):
             else:
                 #randomly select a slot
                 selected_slot = choice(available_slots)
-                set_of_classes = []                 
-                if type(selected_slot[0]) == list: #variable lecture/tutorial pairs which must stay paired throughout
+                set_of_classes = []     
+                print(f"Selected slot: {selected_slot}")            
+                if len(selected_slot) > 1: #variable lecture/tutorial pairs which must stay paired throughout
                     for lesson in selected_slot:
                         block_2 = [module, lesson_types] + lesson
                         variable_class = VarClass._make(block_2)
                         set_of_classes.append(variable_class)
                     selected_classes.append(set_of_classes)
                 else:
-                    block_2 = [module, lesson_types] + selected_slot #single variable slot
+                    block_2 = [module, lesson_types] + selected_slot[0] #single variable slot
                     variable_class = VarClass._make(block_2)
                     selected_classes.append(variable_class)
-    print("Selected classes:\n")
+    print("Selected classes:")
     for i in selected_classes:
         print(i)
+    print()
     return selected_classes
 
 
@@ -55,5 +55,3 @@ def generate_timetable(container):
 #  2. [['1', 0, '1200', '1400']] Single fixed lecture slot, also with length 1
 #  3. [['4', 2, '1000', '1100'], ['5', 4, '1100', '1200'], ['7', 1, '1300', '1400']] Different variable tutorial slots
 #  4. [[['G21', 0, '1000', '1200'], ['G21', 3, '1000', '1200']], [['G19', 1, '1200', '1400'], ['G19', 4, '1200', '1400']]] Different variable tutorial/lecture pairs
-
-
