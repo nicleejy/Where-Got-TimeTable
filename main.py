@@ -13,9 +13,9 @@ from fitness import *
 
 academic_year = "2021-2022"
 
-semester = 1
+semester = 2
 
-module_codes = ["ES2660", "MA1521", "CS1231S", "CS1101S"]
+module_codes = ["CS1231S", "CS1101S"]
 
 container = get_all_module_info(module_codes, academic_year, semester)
 
@@ -135,6 +135,3 @@ print("\nOutput timetable:\n")
 print()
 for j in best_timetable:
     print(j)
-print()
-for i in table_compressor(best_timetable):
-    print(i)

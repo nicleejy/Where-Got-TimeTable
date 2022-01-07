@@ -47,20 +47,22 @@ def mutate(container, timetable):
         available_sessions = container[module_name][class_type]
         new_session = choice(available_sessions) 
 
-        if len(new_session[0]) > 1:
-            print(f"new session 0 {new_session[0]}")
+        if len(new_session) > 1:
+            print()
+            print()
+            print(f"new session 0 {new_session}")
             linked_session = []
             for session in new_session:
                 linked_session.append(VarClass._make([module_name, class_type, 
                                                       session[0], session[1], 
                                                       session[2], session[3]]))
-            print(f"Mutating {timetable[index]} to {linked_session}")
+            print(f"\nMutating linked pair {timetable[index]} to {linked_session}")
             timetable[index] = linked_session
         else:
             new_class = VarClass._make([module_name, class_type, 
-                                        new_session[0], new_session[1], 
-                                        new_session[2], new_session[3]])
-            print(f"Mutating {timetable[index]} to {linked_session}")
+                                        new_session[0][0], new_session[0][1], 
+                                        new_session[0][2], new_session[0][3]])
+            print(f"\nMutating isolated class {timetable[index]} to {new_class}")
             timetable[index] = new_class
     return timetable
 

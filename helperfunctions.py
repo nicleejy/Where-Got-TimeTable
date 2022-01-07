@@ -86,5 +86,4 @@ def merge_scores(timetable, fitness_func, soft_constraints_func):
     soft_score = soft_constraints_func(timetable) / 100
     hard_score = fitness_func(timetable)
     avg_score = (soft_score + hard_score) / 2
-    print(f"Merge score is working, avg score is{avg_score}")
     return avg_score
