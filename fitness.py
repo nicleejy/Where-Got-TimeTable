@@ -1,8 +1,5 @@
 from helperfunctions import *
 
-
-debugging = False
-
 x = [
 FixedClass(module='CS2030S', type='Lecture', no='1', day=0, start='1200', end='1400'), 
 VarClass(module='MA1521', type='Tutorial', no='1', day=0, start='1500', end='1600'), 
@@ -23,8 +20,8 @@ def check_bounds(timetable, start, end):
     exceeded_bounds = 0
     fixed_exceeded_bounds = 0
     for session in timetable:
-        if type(session).__name__ == "VarClass":
-            if int(session.start) < int(start) or int(session.end) > int(end):
+        if type(session).__name__ == "VarClass":  #Filters out the variable classes
+            if int(session.start) < int(start) or int(session.end) > int(end):  #Checks if start of lesson is before bound or end of lesson is after bound
                 exceeded_bounds += 1
         else:
             if int(session.start) < int(start) or int(session.end) > int(end):
@@ -37,20 +34,20 @@ def check_bounds(timetable, start, end):
 
 # Check for free days being conflicted in the overall timetable, returns the reciprocal of the number of conflicts
 def check_free_days(timetable, day_arr):
-    week_days = [days[day] for day in day_arr]
+    week_days = [days[day] for day in day_arr]  #list of index of days in day_arr
     free_day_conflicts = 0
     fixed_free_day_conflicts = 0
     for session in timetable:
         for week_day in week_days:
-            if type(session).__name__ == "VarClass":
-                if session.day == week_day:
+            if type(session).__name__ == "VarClass":  #Filters out the variable classes
+                if session.day == week_day: 
                     free_day_conflicts += 1
             else:
                 if session.day == week_day:
                     fixed_free_day_conflicts += 1
 
-    # print("Free day conflicts containing variable classes: " + str(free_day_conflicts))
-    # print("Free day conflicts containing fixed classes: " + str(fixed_free_day_conflicts))
+    dprint("Free day conflicts containing variable classes: " + str(free_day_conflicts))
+    dprint("Free day conflicts containing fixed classes: " + str(fixed_free_day_conflicts))
     return 1 / (free_day_conflicts + 1)
 
 
@@ -95,7 +92,7 @@ def check_conflict(timetable):
     return 1 / (conflicts + 1)
 
 
-#Checks for lunchtime conflict in the overall timetable, return the number of conflicts
+# Checks for lunchtime conflict in the overall timetable, return the number of conflicts
 def check_lunch_break(timetable): 
     lunch_break = range(1200, 1400) 
     week = [] 
@@ -145,7 +142,8 @@ def check_lunch_break(timetable):
     dprint(f"\nLunchtime Conflicts: {conflicts}") 
     return conflicts  #returns the reciprocal of the number of conflicts
 
-# Takes in desired free time between classes, 
+
+# Checks for desired freetime and presence of lunchtime and returns a score 
 def soft_constraints(desired_freetime, lunch, sorted_timetable):
     sorted_timetable = table_compressor(sorted_timetable)
     totalhours = 14  #total valid hours in a day
@@ -181,7 +179,7 @@ def soft_constraints(desired_freetime, lunch, sorted_timetable):
 
         if  idealfreetime > totalfreetime:  #if what you want is more than total free time available
             realistic_freetime = math.floor(totalfreetime/ no_of_intervals)  #we readjust and give you a realistic free time
-            #print(f"Sorry but your realistic rest time on {actual_days[same_day[1][3]]} is only {realistic_freetime} hours :(")
+            dprint(f"Sorry but your realistic rest time on {actual_days[same_day[1][3]]} is only {realistic_freetime} hours :(")
         else:
             realistic_freetime = desired_freetime  #else you get what you want
 
@@ -204,5 +202,20 @@ def soft_constraints(desired_freetime, lunch, sorted_timetable):
     #print(f"Max score is {maxscore} out of 5")
     return sigmoid(maxscore) * 100  #max score is 99.3 after scaling up
 
-print(check_lunch_break(x))
-print(table_compressor(x))
+
+# Combines values from all 3 constraint functions and returns a fitness score
+# Parameters are the respective user constraints:
+# bound_start = "1000"
+# bound_end = "1800"
+# free_day_arr = ["Monday", "Tuesday"] (in the event the user selects multiple days)
+def fitness_function(bound_start, bound_end, free_day_arr, timetable):
+    bounds_weight = 1
+    free_days_weight = 1
+    conflict_weight = 1
+    compressed_timetable = table_compressor(timetable)
+
+    fitness_score = ((check_bounds(compressed_timetable, bound_start, bound_end) * bounds_weight) * 
+                    (check_free_days(compressed_timetable, free_day_arr) * free_days_weight) * 
+                    (check_conflict(compressed_timetable) * conflict_weight))
+
+    return fitness_score
