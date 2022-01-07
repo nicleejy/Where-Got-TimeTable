@@ -23,16 +23,16 @@ def mutate(container, timetable):
                 mutatable += 1
     if mutatable < mutation_frequency:
         mutation_frequency = mutatable
-
+    
     while generate_random:
         rand_index = random.randint(0, number_of_classes - 1)
         if type(timetable[rand_index]).__name__ == "VarClass":
             if rand_index not in indexes_to_mutate:
                 indexes_to_mutate.append(rand_index)
-            elif type(timetable[rand_index]) == list:
-                if type(timetable[rand_index][0]).__name__ == "VarClass":
-                    if rand_index not in indexes_to_mutate:
-                        indexes_to_mutate.append(rand_index)
+        elif type(timetable[rand_index]) == list:
+            if type(timetable[rand_index][0]).__name__ == "VarClass":
+                if rand_index not in indexes_to_mutate:
+                    indexes_to_mutate.append(rand_index)
         if len(indexes_to_mutate) == mutation_frequency:
             generate_random = False
 
@@ -43,11 +43,12 @@ def mutate(container, timetable):
             module_name, class_type = current_session[0].module, current_session[0].type
         else:
             module_name, class_type = current_session.module, current_session.type
-
+        
         available_sessions = container[module_name][class_type]
         new_session = choice(available_sessions) 
 
-        if type(new_session[0]) == list:
+        if len(new_session[0]) > 1:
+            print(f"new session 0 {new_session[0]}")
             linked_session = []
             for session in new_session:
                 linked_session.append(VarClass._make([module_name, class_type, 
@@ -82,8 +83,8 @@ def single_point_crossover(timetable_1, timetable_2):
     child_1 = []
     child_2 = []
     for i in range(len(var_parent_1)):
-        choice = random.randint(0, 1)
-        if choice == 0:
+        choice_int = random.randint(0, 1)
+        if choice_int == 0:
             # print("Child 1 acquiring Parent 1's traits...")
             # print("Child 2 acquiring Parent 2's traits...")
             child_1.append(var_parent_1[i])

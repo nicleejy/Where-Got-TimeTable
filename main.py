@@ -15,7 +15,7 @@ academic_year = "2021-2022"
 
 semester = 1
 
-module_codes = ["MA1521", "ES2660"]
+module_codes = ["ES2660", "MA1521", "CS1231S", "CS1101S"]
 
 container = get_all_module_info(module_codes, academic_year, semester)
 
@@ -113,13 +113,13 @@ final_set, generations = run_evolution(
     generation_limit=300,
     fitness_limit=1,
     fitness_func=partial(
-        fitness_function, "1000", "1800", ["Monday", "Tuesday"]
+        fitness_function, "1000", "1900", ["Monday"]
         ),
     mutate_func=partial(
         mutate, container
         ),
     soft_constraints_func= partial(
-        soft_constraints, 1, True
+        soft_constraints, 0, True
     )
 )
 end = time.time()
