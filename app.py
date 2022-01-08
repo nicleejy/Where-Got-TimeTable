@@ -3,10 +3,10 @@ from flask import Flask, request, render_template
 import requests
 from main import main
 from webscraping import get_download_link, save_image
-
+import os
 
 app = Flask(__name__)
-appName = "WhereGotTime"
+appName = "where-got-time-table"
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -45,5 +45,5 @@ def index():
     else:
         return render_template('index.html')
 
-if __name__ == '__main__':
-    app.run()
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
