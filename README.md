@@ -58,7 +58,7 @@ Integration of front and backend code was much harder than expected.
 ## Accomplishments We're Proud Of
 We are proud to have come up with a minimum viable product. 
 
-# What We Learned
+## What We Learned
 As this is our first group project, we learnt how to work on Git Flow, how to push and pull information via Git and version control. _One of us even deleted a whole file and had to rewrite from scratch_
 We also learnt how to approach optimization problems and how to use the NUSMods API for parsing data into our program. 
 
