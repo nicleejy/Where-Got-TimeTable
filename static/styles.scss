@@ -3,6 +3,16 @@
     src: url('./Lato-Regular.ttf');
 }
 
+@font-face {
+    font-family: 'GlacialIndifference-Bold';
+    src: url('./GlacialIndifference-Bold.otf');
+}
+
+@font-face {
+    font-family: 'GlacialIndifference-Regular';
+    src: url('./GlacialIndifference-Regular.otf');
+}
+
 .hero {
     background-image: url('hero.jpg');
     background-repeat: no-repeat;
@@ -20,12 +30,14 @@
         font-weight: bold;
         font-size: 72px;
         text-align: center;
+        font-family: 'GlacialIndifference-Bold';
     }
     
     .sub-text {
         color: #cecece;
         font-size: 18px;
         text-align: center;
+        font-family: 'GlacialIndifference-Regular';
     }
 }
 
