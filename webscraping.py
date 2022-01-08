@@ -12,7 +12,7 @@ def get_download_link(nusmods_url):
 
     chrome_options.binary_location = GOOGLE_CHROME_PATH
 
-    browser = webdriver.Chrome(execution_path=CHROMEDRIVER_PATH, chrome_options=chrome_options)
+    browser = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, chrome_options=chrome_options)
 
     browser.get(nusmods_url)
     browser.implicitly_wait(15)
