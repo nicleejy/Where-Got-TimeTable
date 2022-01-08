@@ -11,7 +11,7 @@ app = Flask(__name__)
 def index():
     if request.method == 'POST':
         modules = request.form.get("modules")
-        module_list = modules.split()
+        module_list = [i.upper() for i in modules.split()]
         starttime = int(float(request.form.get("timestart")))
         endtime = int(float(request.form.get("timeend")))
 
