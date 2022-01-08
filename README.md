@@ -38,5 +38,5 @@ We also learnt how to approach optimization problems. Learning how to use the NU
 ## What's next for WhereGotTime(table)?
 Improve the UI/UX of the landing page to facilitate better user experience. Allow more user constraints such as "Minimal Time Spent in School". Fine-tuning of the program and can even possibly be an extension for the official [NUSMods](https://nusmods.com/).
 
-##Credits
+## Credits
 [Using Genetic Algorithm to Schedule Timetables](https://towardsdatascience.com/using-genetic-algorithms-to-schedule-timetables-27f132c9e280)
