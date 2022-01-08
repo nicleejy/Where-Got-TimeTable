@@ -26,7 +26,7 @@ def index():
         freeday_list = filter(lambda x: x != "off", [monday, tuesday, wednesday, thursday, friday])
 
         interval_input = request.form.get("betweenlessons")
-        interval = 0 if interval_input == "" else int(interval_input)
+        interval = False if interval_input == "" else int(interval_input)
 
         lunch = True if request.form.get("lunch") == "on" else False
 
