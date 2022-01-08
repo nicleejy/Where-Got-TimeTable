@@ -76,7 +76,9 @@
             <label for="betweenlessons"><strong>Break between lessons</strong></label>
             <input id="betweenlessons" name="betweenlessons" type="number" class="text-input" placeholder="Hours e.g. 2 (optional)" >
 
-            <input type="submit" value="Generate!" class="submit">
+            <div class="wait-text" id="wait-text" style="display:hidden"></div>
+
+            <input type="submit" id="generate" value="Generate!" class="submit">
         </form>
     </div>
 </body>
@@ -114,5 +116,20 @@
         timestart_text.innerHTML = "<strong>Start time: </strong>" + (twentyfourhour(values[0]));
         timeend_text.innerHTML = "<strong>End time: </strong>" + (twentyfourhour(values[1]));
     });
+
+    var wait_text = document.getElementById("wait-text");
+    var generate = document.getElementById("generate");
+    var modules = document.getElementById("modules");
+    
+
+    generate.onclick = () => {
+        if (modules.value != "") {
+            wait_text.style.display = "block";
+            wait_text.innerHTML = "Generating...";
+        }
+    };
+
+
+
 </script>
 </html>
