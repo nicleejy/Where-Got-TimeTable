@@ -23,7 +23,8 @@ def index():
         thursday = "Thursday" if request.form.get("Thursday") == "on" else "off"
         friday = "Friday" if request.form.get("Friday") == "on" else "off"
 
-        freeday_list = filter(lambda x: x != "off", [monday, tuesday, wednesday, thursday, friday])
+        freeday_list = list(filter(lambda x: x != "off", [monday, tuesday, wednesday, thursday, friday]))
+        print(f'asdf{freeday_list}')
 
         interval_input = request.form.get("betweenlessons")
         interval = False if interval_input == "" else int(interval_input)
