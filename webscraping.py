@@ -1,11 +1,16 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import requests
+from webdriver_manager.chrome import ChromeDriverManager
 
 def get_download_link(nusmods_url):
     chrome_options = Options()
+
+    chrome_options.add_argument("window-size=1920x1480")
+    chrome_options.add_argument("disable-dev-shm-usage")
+
     chrome_options.add_argument("--headless")
-    driver = webdriver.Chrome(options=chrome_options)
+    driver = webdriver.Chrome(chrome_options=chrome_options, executable_path=ChromeDriverManager().install())
     driver.get(nusmods_url)
     driver.implicitly_wait(15)
     frame = driver.find_element_by_id('downshift-1-item-0')
