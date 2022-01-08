@@ -1,5 +1,5 @@
 # Where Got Time(table)?
-A timetable optimser which uses a genetic algorithm to generate a timetable suited to your needs.
+A timetable optimser which uses an evolutionary algorithm to "breed" a timetable suited to your needs.
 
 <p align="center">
 <img src="images/timetable_1.png" align="center" height=auto width="600" >
@@ -10,12 +10,13 @@ A timetable optimser which uses a genetic algorithm to generate a timetable suit
   </p>
 </div>
 
-## Inspiration
+# Inspiration
 Planning the best fit timetable to suit our needs can be an absolute nightmare. Different sets of modules can result in a seemingly limitless combinations of timetable. Comparing and choosing the best timetable can take hours or even days. _The struggle is real_
 
 Having chanced upon an article on genetic algorithm, we thought that this would be the best approach to tackling an optimization problem involving timetabling/scheduling. This project aims to provide the most optimized timetable given a set of pre-defined constraints. 
 
-## What It Does
+# What It Does
+
 Users can input the following:
 - Modules codes for the particular semester
 - Adjustable start and end time
@@ -24,6 +25,11 @@ Users can input the following:
 - Determine minimum hours of break between classes
 
 Based on user inputs, the most optimized timetable is generated.
+
+<br/><br/>
+<p align="center">
+<img src="images/timetable_2.png" align="center" height=auto width="800" >
+</p><br/><br/>
 
 # Why It Works
  A Genetic Algorithm mimic the process of natural selection and evolution by combining the "elite" timetables to form the "next generation" of timetables.  
@@ -64,6 +70,10 @@ We also learnt how to approach optimization problems and how to use the NUSMods 
 
 # What's Next For Where Got Time(table)?
 Improve the UI/UX of the landing page to facilitate better user experience. Allow more user constraints such as "Minimal Time Spent in School". We will further fine-tune the program which could possibly be used as an extension for the official [NUSMods](https://nusmods.com/). A possible feature that can be added includes a GIF of the user's timetable evolving across generations from start to finish.
+
+# Try It Out
+[Where Got Time(table)?](https://where-got-time-table.herokuapp.com/)
+
 
 # Credits/Reference
 [Using Genetic Algorithm to Schedule Timetables](https://towardsdatascience.com/using-genetic-algorithms-to-schedule-timetables-27f132c9e280)
