@@ -142,51 +142,51 @@ def soft_constraints(desired_freetime, lunch, sorted_timetable):
     totalhours = 14  #total valid hours in a day
     maxscore = 5  #max score for soft constraints
     penalty= 0.7  #penalty for each conflict
+    if desired_freetime != False:
+        week_days = []  #list of corresponding days with lessons
+        for i in sorted_timetable:  
+            if i.day not in week_days:
+                week_days.append(i.day)
+                
+        classes_byday = []  #list of lists of classes on the same day
+        for week_day in week_days:
+            classes = []  
+            for j in sorted_timetable:
+                if week_day == j.day:
+                    classes.append(j)
+            classes_byday.append(classes)
 
-    week_days = []  #list of corresponding days with lessons
-    for i in sorted_timetable:  
-        if i.day not in week_days:
-            week_days.append(i.day)
+        data = []  
+        for same_day in classes_byday:
+            no_of_failures = 0  #number of failures
+            class_duration = 0  #total duration of classes in the same day 
+            no_of_classes = len(same_day)  #number of classes on the same day
+            no_of_intervals = no_of_classes - 1  #number of intervals between classes of the same day
 
-    classes_byday = []  #list of lists of classes on the same day
-    for week_day in week_days:
-        classes = []  
-        for j in sorted_timetable:
-            if week_day == j.day:
-                classes.append(j)
-        classes_byday.append(classes)
+            for each_class in same_day:
+                individual_duration = int(each_class.end) - int(each_class.start)
+                class_duration += individual_duration
+            
+            totalfreetime = totalhours - (class_duration / 100)  #total free time available in the same day
+            idealfreetime = (desired_freetime * no_of_intervals)  #ideal free time available in the same day
 
-    data = []  
-    for same_day in classes_byday:
-        no_of_failures = 0  #number of failures
-        class_duration = 0  #total duration of classes in the same day 
-        no_of_classes = len(same_day)  #number of classes on the same day
-        no_of_intervals = no_of_classes - 1  #number of intervals between classes of the same day
+            if idealfreetime > totalfreetime:  #if what you want is more than total free time available
+                realistic_freetime = math.floor(totalfreetime/ no_of_intervals)  #we readjust and give you a realistic free time
+                dprint(f"Sorry but your realistic rest time on {actual_days[same_day[1][3]]} is only {realistic_freetime} hours :(")
+            else:
+                realistic_freetime = desired_freetime  #else you get what you want
 
-        for each_class in same_day:
-            individual_duration = int(each_class.end) - int(each_class.start)
-            class_duration += individual_duration
+            for i in range(no_of_intervals):  #check for number of intervals that does not minimally have the desired rest time
+                if int(same_day[i + 1].start) - int(same_day[i].end) < (realistic_freetime * 100):
+                    no_of_failures += 1
+            
+            data_dict = {"totalDuration": int(class_duration/100), 
+                        "noClasses": no_of_classes, 
+                        "failures": no_of_failures}
+            data.append(data_dict)
         
-        totalfreetime = totalhours - (class_duration / 100)  #total free time available in the same day
-        idealfreetime = (desired_freetime * no_of_intervals)  #ideal free time available in the same day
-
-        if idealfreetime > totalfreetime:  #if what you want is more than total free time available
-            realistic_freetime = math.floor(totalfreetime/ no_of_intervals)  #we readjust and give you a realistic free time
-            dprint(f"Sorry but your realistic rest time on {actual_days[same_day[1][3]]} is only {realistic_freetime} hours :(")
-        else:
-            realistic_freetime = desired_freetime  #else you get what you want
-
-        for i in range(no_of_intervals):  #check for number of intervals that does not minimally have the desired rest time
-            if int(same_day[i + 1].start) - int(same_day[i].end) < (realistic_freetime * 100):
-                no_of_failures += 1
-        
-        data_dict = {"totalDuration": int(class_duration/100), 
-                     "noClasses": no_of_classes, 
-                     "failures": no_of_failures}
-        data.append(data_dict)
-    
-    for each in data:  #penalize for each failure
-        maxscore -= (each["failures"] * penalty)
+        for each in data:  #penalize for each failure
+            maxscore -= (each["failures"] * penalty)
 
     if lunch:
         lunchtime_conflicts = check_lunch_break(sorted_timetable)
