@@ -3,6 +3,16 @@
   src: url("./Lato-Regular.ttf");
 }
 
+@font-face {
+  font-family: 'GlacialIndifference-Bold';
+  src: url("./GlacialIndifference-Bold.otf");
+}
+
+@font-face {
+  font-family: 'GlacialIndifference-Regular';
+  src: url("./GlacialIndifference-Regular.otf");
+}
+
 .hero, .hero-small {
   background-image: url("hero.jpg");
   background-repeat: no-repeat;
@@ -32,12 +42,14 @@
   font-weight: bold;
   font-size: 72px;
   text-align: center;
+  font-family: 'GlacialIndifference-Bold';
 }
 
 .hero .sub-text, .hero-small .sub-text {
   color: #cecece;
   font-size: 18px;
   text-align: center;
+  font-family: 'GlacialIndifference-Regular';
 }
 
 .hero-small {
@@ -165,5 +177,15 @@ a {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+}
+
+.error-message {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin: 50px;
 }
 /*# sourceMappingURL=styles.css.map */

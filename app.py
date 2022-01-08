@@ -31,6 +31,10 @@ def index():
         lunch = True if request.form.get("lunch") == "on" else False
 
         link = main(module_list, semester, starttime, endtime, freeday_list, lunch, interval)
+
+        if link == False:
+            return render_template('error.html')
+
         dl_link = get_download_link(link)
         
         save_image(dl_link, 'static/My Timetable.png')

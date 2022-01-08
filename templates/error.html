@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="static/normalize.css" rel="stylesheet">
+    <link href="static/styles.css" rel="stylesheet">
+    <title>where got time</title>
+</head>
+<body>
+    <div class="hero-small">
+        <div class="sub-text">
+            <a href="{{ url_for('index') }}">where got time(table)?</a>
+        </div>
+    </div>
+    <div class="error-message">There is an error in one or more of your input, please try again!</div>
+    <div class="button-table">
+        <a href="{{ url_for('index') }}">
+            <input type="submit" value="Back to main page" class="submit">
+        </a>
+    </div>
+</body> 
+</html>
