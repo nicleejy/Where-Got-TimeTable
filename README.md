@@ -36,17 +36,11 @@ Based on user inputs, the most optimized timetable is generated.
 
 **The evolutionary process:**
 1. Extracting, cleaning and generating our own data structure from NUSMods API
-
 2. Initialise the first generation which includes a population of timetables
-
 3. Grading each timetable with a fitness score
-
 4. Cross-over fittest "parents" to generate 2 "child" timetables with mutations 
-
 5. Assign these timetables to the next generation
-
 6. Repeat this process until the fitness score across a generation converges
-
 7. If the soft and hard constraints were not met after reaching the generation limit, the most optimised timetable is returned to the user
 
 ## How We Built It
