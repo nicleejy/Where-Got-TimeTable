@@ -1,5 +1,5 @@
 # Where Got Time(table)?
-A timetable optimser which uses an evolutionary algorithm to "breed" a timetable suited to your needs.
+A timetable optimsier which uses an evolutionary algorithm to "breed" a timetable suited to your needs.
 
 <p align="center">
 <img src="images/timetable_1.png" align="center" height=auto width="600" >
@@ -32,7 +32,7 @@ Based on user inputs, the most optimized timetable is generated.
 </p><br/><br/>
 
 ## Why It Works
- A Genetic Algorithm mimic the process of natural selection and evolution by combining the "elite" timetables to form the "next generation" of timetables.  
+ A Genetic Algorithm mimics the process of natural selection and evolution by combining the "elite" timetables to form the "next generation" of timetables.  
 
 **The evolutionary process:**
 1. Extracting, cleaning and generating our own data structure from NUSMods API
@@ -44,9 +44,9 @@ Based on user inputs, the most optimized timetable is generated.
 7. If the soft and hard constraints were not met after reaching the generation limit, the most optimised timetable is returned to the user
 
 ## How We Built It
-Our main algorithm was written with Python. It utilizes NUSMods API to fetch the relevant mods data. Some filtering and cleaning up of the data grants us a workable data structure. Implementation of the genetic algorithm returns a link that is sent to the web page which generates an image for the user. 
+Our main algorithm was written with Python. It utilizes NUSMods API to fetch the relevant module data. Some filtering and cleaning up of the data grants us a workable data structure. Implementation of the genetic algorithm returns a link that is sent to the web page which generates an image for the user. 
 
-Firstly, we generate a population of timetables. Using a scoring algorithm, we rate the fitness of the timetables. Timetables with a better fitness score gets to produce the next generation of timetables through cross-overs and mutation. 
+Firstly, we generate a population of timetables. Using a scoring algorithm, we rate the fitness of each timetable. Timetables with a better fitness score gets to produce the next generation of timetables through cross-overs and mutation. 
 
 We repeat this process until the average fitness score of the entire generation converges to within a tolerance range. The fittest timetable from the final generation is returned to the user.
 
