@@ -6,6 +6,7 @@ from webscraping import get_download_link, save_image
 
 
 app = Flask(__name__)
+appName = "WhereGotTime"
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -43,3 +44,6 @@ def index():
         return render_template('results.html', link=link)
     else:
         return render_template('index.html')
+
+if __name__ == '__main__':
+    app.run()
