@@ -1,7 +1,9 @@
 from datetime import time
 from flask import Flask, request, render_template
+import requests
 from main import main
-from screenshot import get_screenshot
+from webscraping import get_download_link, save_image
+
 
 app = Flask(__name__)
 
@@ -23,12 +25,15 @@ def index():
 
         freeday_list = filter(lambda x: x != "off", [monday, tuesday, wednesday, thursday, friday])
 
-        interval = int(request.form.get("betweenlessons"))
+        interval_input = request.form.get("betweenlessons")
+        interval = 0 if interval_input == "" else int(interval_input)
 
         lunch = True if request.form.get("lunch") == "on" else False
 
         link = main(module_list, semester, starttime, endtime, freeday_list, lunch, interval)
-        get_screenshot(link)
+        dl_link = get_download_link(link)
+        
+        save_image(dl_link, 'static/My Timetable.png')
         
         return render_template('results.html', link=link)
     else:
