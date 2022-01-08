@@ -1,19 +1,22 @@
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
 import requests
-from webdriver_manager.chrome import ChromeDriverManager
 
 def get_download_link(nusmods_url):
-    chrome_options = Options()
+    GOOGLE_CHROME_PATH = '/app/.apt/usr/bin/google_chrome'
+    CHROMEDRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
 
-    chrome_options.add_argument("window-size=1920x1480")
-    chrome_options.add_argument("disable-dev-shm-usage")
-
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument('--disable-gpu')
+    chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument("--headless")
-    driver = webdriver.Chrome(chrome_options=chrome_options, executable_path=ChromeDriverManager().install())
-    driver.get(nusmods_url)
-    driver.implicitly_wait(15)
-    frame = driver.find_element_by_id('downshift-1-item-0')
+
+    chrome_options.binary_location = GOOGLE_CHROME_PATH
+
+    browser = webdriver.Chrome(execution_path=CHROMEDRIVER_PATH, chrome_options=chrome_options)
+
+    browser.get(nusmods_url)
+    browser.implicitly_wait(15)
+    frame = browser.find_element_by_id('downshift-1-item-0')
     return frame.get_attribute('href')
 
 def save_image(url, filename):
