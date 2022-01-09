@@ -1,5 +1,5 @@
 # Where Got Time(table)?
-A timetable optimsier which uses an evolutionary algorithm to "breed" a timetable suited to your needs.
+A timetable optimiser for NUS which uses an evolutionary algorithm to "breed" a timetable suited to your needs.
 
 <p align="center">
 <img src="images/timetable_1.png" align="center" height=auto width="600" >
