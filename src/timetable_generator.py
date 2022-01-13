@@ -3,10 +3,8 @@ from random import choice
 from moduleparser import get_all_module_info, get_module_info
 from helperfunctions import *
 
-
 #input: container
 #output: random generated timetable based on available slots in container
-
 
 def generate_timetable(container):
     selected_classes = []
