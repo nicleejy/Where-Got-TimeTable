@@ -9,35 +9,38 @@ from genetics import single_point_crossover, mutate
 from timetable_generator import generate_timetable
 from fitness import *
 
-#Parameters to vary
+# Parameters to vary
+
+
 def main(module_code_list, semester, starttime, endtime, freeday_list, lunchbreak, interval):
-    academic_year = "2021-2022"
+    academic_year = "2022-2023"
 
     module_codes = module_code_list
 
-    try:
-        container = get_all_module_info(module_codes, academic_year, semester)
-    except Exception as e:
-        print(e)
-        return False
+    # try:
+    #     container = get_all_module_info(module_codes, academic_year, semester)
+    # except Exception as e:
+    #     print(e)
+    #     return False
 
-    # Takes in a 2D list containing lists of timetables 
-    # as well as the fitness and soft constraints function 
+    container = get_all_module_info(module_codes, academic_year, semester)
+
+    # Takes in a 2D list containing lists of timetables
+    # as well as the fitness and soft constraints function
     # and evaluates each timetable to find timetables with the highest score
     def select_pairs(population_list, fitness_func, soft_constraints_func):
         return choices(
-                population=population_list,
-                weights=[merge_scores(timetable, fitness_func, soft_constraints_func) for timetable in population_list],
-                k=2
+            population=population_list,
+            weights=[merge_scores(timetable, fitness_func, soft_constraints_func)
+                     for timetable in population_list],
+            k=2
         )
-
 
     def populate(population_size):
         population = []
         for i in range(population_size):
             population.append(generate_timetable(container))
         return population
-
 
     def run_evolution(population_size, generation_limit, fitness_limit, fitness_func, mutate_func, soft_constraints_func):
 
@@ -46,7 +49,8 @@ def main(module_code_list, semester, starttime, endtime, freeday_list, lunchbrea
         for j in range(generation_limit + 1):
             population = sorted(
                 population,
-                key=lambda timetable: (fitness_func(timetable), soft_constraints_func(timetable)),
+                key=lambda timetable: (fitness_func(
+                    timetable), soft_constraints_func(timetable)),
                 reverse=True
             )
 
@@ -61,12 +65,14 @@ def main(module_code_list, semester, starttime, endtime, freeday_list, lunchbrea
 
             if fitness_func(population[0]) == fitness_limit and 0 <= tolerance <= 1:
                 break
-            
+
             next_generation = population[0:2]
 
             for k in range(int(len(population) / 2) - 1):
-                parents = select_pairs(population, fitness_func, soft_constraints_func)
-                child_a, child_b = single_point_crossover(parents[0], parents[1])
+                parents = select_pairs(
+                    population, fitness_func, soft_constraints_func)
+                child_a, child_b = single_point_crossover(
+                    parents[0], parents[1])
                 child_a = mutate_func(child_a)
                 child_b = mutate_func(child_b)
                 next_generation += [child_a, child_b]
@@ -80,19 +86,20 @@ def main(module_code_list, semester, starttime, endtime, freeday_list, lunchbrea
             print()
             score = fitness_func(population[0])
             print(sorted(scores, reverse=True))
-            
+
             soft_score = soft_constraints_func(population[0])
             print(f"Soft score: {soft_score}")
             print(f"Tolerance: {tolerance}")
             print(f"Fitness score: {score}\n")
-            
-        population = sorted(
-                population,
-                key=lambda timetable: (fitness_func(timetable), soft_constraints_func(timetable)),
-                reverse=True
-            )
 
-        total1= 0
+        population = sorted(
+            population,
+            key=lambda timetable: (fitness_func(
+                timetable), soft_constraints_func(timetable)),
+            reverse=True
+        )
+
+        total1 = 0
         scores3 = []
         for member1 in population:
             total1 += soft_constraints_func(member1)
@@ -116,11 +123,11 @@ def main(module_code_list, semester, starttime, endtime, freeday_list, lunchbrea
         fitness_limit=1,
         fitness_func=partial(
             fitness_function, starttime, endtime, freeday_list
-            ),
+        ),
         mutate_func=partial(
             mutate, container
-            ),
-        soft_constraints_func= partial(
+        ),
+        soft_constraints_func=partial(
             soft_constraints, interval, lunchbreak
         )
     )
@@ -131,7 +138,8 @@ def main(module_code_list, semester, starttime, endtime, freeday_list, lunchbrea
 
     print(f"Number of generations: {generations}")
     print(f"Time: {end - start}s")
-    print(f"Best solution: {generate_link(best_timetable, semester, module_codes)}")
+    print(
+        f"Best solution: {generate_link(best_timetable, semester, module_codes)}")
 
     print("\nOutput timetable:\n")
     print()
@@ -139,3 +147,9 @@ def main(module_code_list, semester, starttime, endtime, freeday_list, lunchbrea
         print(j)
 
     return(generate_link(best_timetable, semester, module_codes))
+
+# module_code_list, semester, starttime, endtime, freeday_list, lunchbreak, interval
+
+
+# main(["CS2103T", "ES2660", "CS2101","CS2102"],
+#      1, 900, 1800, ["Monday"], True, False)
