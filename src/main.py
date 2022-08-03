@@ -13,7 +13,7 @@ from fitness import *
 
 
 def main(module_code_list, semester, starttime, endtime, freeday_list, lunchbreak, interval):
-    academic_year = "2022-2023"
+    academic_year = get_academic_year()
 
     module_codes = module_code_list
 

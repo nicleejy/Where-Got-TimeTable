@@ -1,12 +1,13 @@
-from datetime import time
+from datetime import date, time
 from flask import Flask, request, render_template
 import requests
 from main import main
-from webscraping import get_download_link, save_image
+from webscraping_local import get_download_link, save_image
 import os
 
 app = Flask(__name__)
 appName = "where-got-time-table"
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -39,7 +40,7 @@ def index():
 
         dl_link = get_download_link(link)
         
-        save_image(dl_link, 'static/My Timetable.png')
+        save_image(dl_link, 'src/static/My Timetable.png')
         
         return render_template('results.html', link=link)
     else:

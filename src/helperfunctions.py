@@ -1,5 +1,40 @@
+import datetime
+from datetime import date
 import math
 from collections import namedtuple
+from pytz import timezone
+import pytz
+
+sg_timezone = pytz.timezone("Asia/Singapore")
+
+def get_sg_time():
+    return datetime.datetime.now(sg_timezone)
+
+
+# Keeps track of windows where users can create a new timetable based on year
+
+relaxed_calendar = {'2021-2022': [date(2021, 5, 2), date(2021, 12, 5)],
+                    '2022-2023': [date(2022, 5, 7), date(2022, 12, 4)],
+                    '2023-2024': [date(2023, 5, 6), date(2023, 12, 10)],
+                    '2024-2025': [date(2024, 5, 11), date(2024, 12, 8)],
+                    '2025-2026': [date(2025, 5, 10), date(2025, 12, 8)]}
+
+
+def get_academic_year():
+
+    if relaxed_calendar["2021-2022"][0] <= get_sg_time().date() < relaxed_calendar["2022-2023"][0]:
+        academic_year = '2021-2022'
+    elif relaxed_calendar["2022-2023"][0] <= get_sg_time().date() < relaxed_calendar["2023-2024"][0]:
+        academic_year = '2022-2023'
+    elif relaxed_calendar["2023-2024"][0] <= get_sg_time().date() < relaxed_calendar["2024-2025"][0]:
+        academic_year = '2023-2024'
+    elif relaxed_calendar["2024-2025"][0] <= get_sg_time().date() < relaxed_calendar["2025-2026"][0]:
+        academic_year = '2024-2025'
+    else:
+        academic_year = '2022-2023' # fallback
+
+    return academic_year
+
 
 # Dictionaries to convert between days
 days = {"Monday": 0, "Tuesday": 1, "Wednesday": 2, "Thursday": 3, "Friday": 4, "Saturday": 5, "Sunday": 6}

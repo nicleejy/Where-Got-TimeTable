@@ -1,4 +1,5 @@
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 import requests
 
 def get_download_link(nusmods_url):
@@ -16,7 +17,7 @@ def get_download_link(nusmods_url):
 
     browser.get(nusmods_url)
     browser.implicitly_wait(15)
-    frame = browser.find_element_by_id('downshift-1-item-0')
+    frame = browser.find_element(By.ID, 'downshift-1-item-0')
     return frame.get_attribute('href')
 
 def save_image(url, filename):
